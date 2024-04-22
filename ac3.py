@@ -14,9 +14,9 @@ def ac3(board) -> bool:
             for i in range(sr*3, sr*3+3):  # Row index within the square
                 for j in range(sc*3, sc*3+3):  # Column index within the square
                     for k in range(i, sr*3+3):
-                        for l in range(j+1, sc*3+3):
-                            queue.push((i, j, k, l))
-                            queue.push((k, l, i, j))
+                        for m in range(j + 1, sc * 3 + 3):
+                            queue.push((i, j, k, m))
+                            queue.push((k, m, i, j))
 
     while not queue.is_empty():
         t = queue.pop()
@@ -42,7 +42,18 @@ def ac3(board) -> bool:
 
 
 def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
-    pass
+    revised = False
+    for x in board[i1, j1].domain:
+        found = False  # x admissibility
+        for y in board[i2, j2].domain:
+            if y != x:
+                found = True
+
+        if not found:
+            board[i1, j1].domain.remove(x)
+            revised = True
+
+    return revised
 
 
 class Queue:
