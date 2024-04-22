@@ -5,3 +5,7 @@ class Cell:
             self.domain = [self.value]
         else:
             self.domain = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    def set_value(self, value: int) -> None:
+        self.value = value
+        self.domain = [self.value]
