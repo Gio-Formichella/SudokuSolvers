@@ -1,41 +1,23 @@
 import numpy as np
-
+from ac3 import ac3
 from cell import Cell
 
 
-def satisfied_constraints(board) -> bool:
-    # Check all rows
-    for i in range(9):
-        for j in range(9):
-            values = []  # Stores all values in row
-            if board[i, j].value is not None:
-                values.append(board[i, j].value)
-            # Checking for same values
-            if len(values) > len(set(values)):
-                return False
-    # Check all columns
+# Sudoku board
+b = np.empty((9, 9), dtype=Cell)
+
+# Initialize each element with a new Cell object
+for i in range(9):
     for j in range(9):
-        for i in range(9):
-            values = []  # Stores all values in column
-            if board[i, j].value is not None:
-                values.append(board[i, j].value)
-            # Checking for same values
-            if len(values) > len(set(values)):
-                return False
-    # Check all squares
-    for sr in range(3):  # Square rows
-        for sc in range(3):  # Square columns
-            values = []  # Stores all values in square
-            for i in range(sr * 3, sr * 3 + 3):
-                for j in range(sc * 3, sc * 3 + 3):
-                    if board[i, j].value is not None:
-                        values.append(board[i, j].value)
-                    # Checking for same values
-                    if len(values) > len(set(values)):
-                        return False
-    # No constraints have been broken
-    return True
+        b[i, j] = Cell()
 
-
-b = np.full((9, 9), Cell())
-print(satisfied_constraints(b))
+b[0, 0].set_value(1)
+b[0, 1].set_value(2)
+b[0, 2].set_value(3)
+b[1, 0].set_value(4)
+b[1, 1].set_value(5)
+b[1, 2].set_value(6)
+b[2, 0].set_value(7)
+b[2, 1].set_value(8)
+ac3(b)
+print(b[2, 2].domain)  # Expecting [9]
