@@ -3,20 +3,26 @@ def ac3(board) -> bool:
     # Arcs relative to row and column constraints
     for i in range(9):
         for j in range(9):
-            for k in range(j+1, 9):
+            for k in range(j + 1, 9):
                 # First two indices are the position of the first variable in the matrix while the last two are for
                 # the second variable
                 queue.push((i, j, i, k))
                 queue.push((i, k, i, j))
-    # Add arcs relative to squares
+            for m in range(i + 1, 9):
+                queue.push((i, j, m, j))
+                queue.push((m, j, i, j))
+    # Arcs relative to square constraints
     for sr in range(3):  # Square rows
         for sc in range(3):  # Square columns
-            for i in range(sr*3, sr*3+3):  # Row index within the square
-                for j in range(sc*3, sc*3+3):  # Column index within the square
-                    for k in range(i, sr*3+3):
+            for i in range(sr * 3, sr * 3 + 3):  # Row index within the square
+                for j in range(sc * 3, sc * 3 + 3):  # Column index within the square
+                    for k in range(i + 1, sr * 3 + 3):
                         for m in range(j + 1, sc * 3 + 3):
                             queue.push((i, j, k, m))
                             queue.push((k, m, i, j))
+                        for n in range(sc * 3, j):
+                            queue.push((i, j, k, n))
+                            queue.push((k, n, i, j))
 
     while not queue.is_empty():
         t = queue.pop()
