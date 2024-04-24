@@ -1,3 +1,6 @@
+from queue import Queue
+
+
 def ac3(board) -> bool:
     queue = Queue()
     # Arcs relative to row and column constraints
@@ -60,19 +63,3 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
             revised = True
 
     return revised
-
-
-class Queue:
-    def __init__(self):
-        self.queue = []
-
-    def pop(self) -> tuple:
-        return self.queue.pop(0)
-
-    def push(self, t: tuple) -> None:
-        self.queue.append(t)
-
-    def is_empty(self) -> bool:
-        if len(self.queue) == 0:
-            return True
-        return False
