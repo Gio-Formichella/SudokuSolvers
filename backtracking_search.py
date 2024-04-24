@@ -2,6 +2,7 @@ import copy
 import random
 import numpy as np
 from cell import Cell
+from queue import Queue
 
 
 def backtracking_search(board) -> np.ndarray or None:
@@ -83,4 +84,52 @@ def inference(board, var, value) -> np.ndarray or None:
 
 
 def mac(board, var) -> np.ndarray or None:
-    pass
+    i = var[0]
+    j = var[1]
+    queue = Queue()
+    for k in range(9):
+        if k != j and board[i, k].value is None:
+            queue.push((i, k, i, j))
+        if k != i and board[k, j].value is None:
+            queue.push((k, j, i, j))
+    sr = i // 3  # Square row of variable
+    sc = j // 3  # Square column of variable
+    for m in range(sr * 3, sr * 3 + 3):
+        for n in range(sc * 3, sc * 3 + 3):
+            if (m, n) != (i, j) and board[m, n].value is None:
+                queue.push((m, n, i, j))
+
+    while not queue.is_empty():
+        t = queue.pop()
+        i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
+        if revise(board, i1, j1, i2, j2):
+            if len(board[i1, j1].domain) == 0:
+                # Problem has no solution
+                return None
+            # Propagation to all neighbors
+            for k in range(9):
+                if k != j1 and (i1, k) != (i2, j2) and board[i1, k].value is None:
+                    queue.push((i1, k, i1, j1))
+                if k != i1 and (k, j1) != (i2, j2) and board[k, j1].value is None:
+                    queue.push((k, j1, i1, j1))
+            sr = i1 // 3
+            sc = j1 // 3
+            for i in range(sr * 3, sr * 3 + 3):
+                for j in range(sc * 3, sc * 3 + 3):
+                    if (i, j) not in ((i1, j1), (i2, j2)) and board[i, j].value is None:
+                        queue.push((i, j, i1, j1))
+
+
+def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
+    revised = False
+    for x in board[i1, j1].domain:
+        found = False  # x admissibility
+        for y in board[i2, j2].domain:
+            if y != x:
+                found = True
+
+        if not found:
+            board[i1, j1].domain.remove(x)
+            revised = True
+
+    return revised
