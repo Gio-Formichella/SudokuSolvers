@@ -1,6 +1,7 @@
+import copy
 import random
-
 import numpy as np
+from cell import Cell
 
 
 def backtracking_search(board) -> np.ndarray or None:
@@ -17,10 +18,15 @@ def backtrack(board) -> np.ndarray or None:
     if not found:
         return board
 
-    var = select_unassigned_variable(board)
+    var = select_unassigned_variable(board)  # tuple (row, column)
     for value in order_domain_values(board, var):
-        # if value is consistent with assignment
-        pass
+        inference_board = inference(copy.deepcopy(board), var, value)
+        if inference_board is not None:
+            result = backtrack(inference_board)
+            if result is not None:
+                return result
+
+    return None
 
 
 def select_unassigned_variable(csp, strategy="static") -> tuple or None:
@@ -39,7 +45,7 @@ def select_unassigned_variable(csp, strategy="static") -> tuple or None:
         # can add more
 
 
-def order_domain_values(board: np.ndarray, var: tuple) -> list:
+def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
     i = var[0]
     j = var[1]
     least_constraining_value = []  # Will store for every value in variable domain (value, constraint_score)
@@ -66,3 +72,15 @@ def order_domain_values(board: np.ndarray, var: tuple) -> list:
 
     least_constraining_value.sort(key=lambda x: x[1])
     return least_constraining_value
+
+
+def inference(board, var, value) -> np.ndarray or None:
+    i = var[0]
+    j = var[1]
+    board[i, j].set_value(value)
+    inference_board = mac(board, (i, j))
+    return inference_board
+
+
+def mac(board, var) -> np.ndarray or None:
+    pass
