@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Added set_value method to also reduce domain">
+    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Moved Queue to new file">
+      <change afterPath="$PROJECT_DIR$/backtracking_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ac3.py" beforeDir="false" afterPath="$PROJECT_DIR$/ac3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -49,16 +48,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for ac3_test.Ac3Test.test_ac3.executor": "Debug",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "ignore_missing_gitignore": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for ac3_test.Ac3Test.test_ac3.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Gio\PycharmProjects\SudokuSolvers" />
@@ -164,7 +163,31 @@
       <option name="project" value="LOCAL" />
       <updated>1713805182678</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed bug: wasn't adding all arcs of CSP and was adding some arcs multiple times">
+      <option name="closed" value="true" />
+      <created>1713885053157</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713885053157</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed bug in Sudoku board initialization. Now all items in the matrix do not reference the same Cell object">
+      <option name="closed" value="true" />
+      <created>1713885203415</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713885203415</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Moved Queue to new file">
+      <option name="closed" value="true" />
+      <created>1713964830440</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1713964830440</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -173,6 +196,9 @@
     <MESSAGE value="Setting domain to initialization value if given" />
     <MESSAGE value="Added revise subroutine" />
     <MESSAGE value="Added set_value method to also reduce domain" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added set_value method to also reduce domain" />
+    <MESSAGE value="Fixed bug: wasn't adding all arcs of CSP and was adding some arcs multiple times" />
+    <MESSAGE value="Fixed bug in Sudoku board initialization. Now all items in the matrix do not reference the same Cell object" />
+    <MESSAGE value="Moved Queue to new file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved Queue to new file" />
   </component>
 </project>
