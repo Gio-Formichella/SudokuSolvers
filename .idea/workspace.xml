@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Added solver method">
-      <change afterPath="$PROJECT_DIR$/unit_test/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Added unit testing for method ac3">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sudoku_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unit_test/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/unit_test/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +245,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713977010138</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added unit testing for method ac3">
+      <option name="closed" value="true" />
+      <created>1714051495987</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714051495987</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -261,6 +269,7 @@
     <MESSAGE value="Working on backtracking_search: implemented backtrack and inference methods" />
     <MESSAGE value="Completed mac implementation but found bugs in execution" />
     <MESSAGE value="Added solver method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added solver method" />
+    <MESSAGE value="Added unit testing for method ac3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added unit testing for method ac3" />
   </component>
 </project>

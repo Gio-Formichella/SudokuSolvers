@@ -1,5 +1,5 @@
 import unittest
-from ac3 import ac3
+from sudoku_solver import *
 import numpy as np
 from cell import Cell
 
