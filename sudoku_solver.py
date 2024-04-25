@@ -1,6 +1,6 @@
 import numpy as np
-from queue import Queue
 from backtracking_search import backtracking_search
+from queue import Queue
 
 
 def sudoku_solver(board) -> np.ndarray or None:
@@ -18,11 +18,11 @@ def ac3(board) -> bool:
             for k in range(j + 1, 9):
                 # First two indices are the position of the first variable in the matrix while the last two are for
                 # the second variable
-                queue.push((i, j, i, k))
-                queue.push((i, k, i, j))
+                queue.put((i, j, i, k))
+                queue.put((i, k, i, j))
             for m in range(i + 1, 9):
-                queue.push((i, j, m, j))
-                queue.push((m, j, i, j))
+                queue.put((i, j, m, j))
+                queue.put((m, j, i, j))
     # Arcs relative to square constraints
     for sr in range(3):  # Square rows
         for sc in range(3):  # Square columns
@@ -30,14 +30,14 @@ def ac3(board) -> bool:
                 for j in range(sc * 3, sc * 3 + 3):  # Column index within the square
                     for k in range(i + 1, sr * 3 + 3):
                         for m in range(j + 1, sc * 3 + 3):
-                            queue.push((i, j, k, m))
-                            queue.push((k, m, i, j))
+                            queue.put((i, j, k, m))
+                            queue.put((k, m, i, j))
                         for n in range(sc * 3, j):
-                            queue.push((i, j, k, n))
-                            queue.push((k, n, i, j))
+                            queue.put((i, j, k, n))
+                            queue.put((k, n, i, j))
 
-    while not queue.is_empty():
-        t = queue.pop()
+    while not queue.empty():
+        t = queue.get()
         i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
         if revise(board, i1, j1, i2, j2):
             if len(board[i1, j1].domain) == 0:
@@ -46,15 +46,15 @@ def ac3(board) -> bool:
             # Propagation to all neighbors
             for k in range(9):
                 if k != j1 and (i1, k) != (i2, j2):
-                    queue.push((i1, k, i1, j1))
+                    queue.put((i1, k, i1, j1))
                 if k != i1 and (k, j1) != (i2, j2):
-                    queue.push((k, j1, i1, j1))
+                    queue.put((k, j1, i1, j1))
             sr = i1 // 3
             sc = j1 // 3
             for i in range(sr*3, sr*3+3):
                 for j in range(sc*3, sc*3 + 3):
                     if (i, j) not in ((i1, j1), (i2, j2)):
-                        queue.push((i, j, i1, j1))
+                        queue.put((i, j, i1, j1))
 
     return True
 

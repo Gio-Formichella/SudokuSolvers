@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Added unit testing for method ac3">
+    <list default="true" id="e3c38901-a527-47ca-b0f9-7d35cbc5a28f" name="Changes" comment="Moved the ac3 method to sudoku_solver.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backtracking_search.py" beforeDir="false" afterPath="$PROJECT_DIR$/backtracking_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_queue.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sudoku_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku_solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unit_test/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/unit_test/test.py" afterDir="false" />
     </list>
@@ -53,11 +56,14 @@
   "keyToString": {
     "Python tests.Python tests for ac3_test.Ac3Test.test_ac3.executor": "Debug",
     "Python tests.Python tests for test.TestAlgorithms.executor": "Run",
-    "Python.main.executor": "Run",
+    "Python tests.Python tests for test.TestAlgorithms.test_ac3.executor": "Run",
+    "Python tests.Python tests for test.TestAlgorithms.test_order_domain_values.executor": "Run",
+    "Python.main.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "ignore_missing_gitignore": "true"
+    "ignore_missing_gitignore": "true",
+    "settings.editor.selected.configurable": "reference.idesettings.debugger.python"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -65,7 +71,7 @@
       <recent name="C:\Users\Gio\PycharmProjects\SudokuSolvers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test.TestAlgorithms">
+  <component name="RunManager" selected="Python tests.Python tests for test.TestAlgorithms.test_ac3">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="SudokuSolvers" />
       <option name="ENV_FILES" value="" />
@@ -118,8 +124,40 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for test.TestAlgorithms.test_ac3" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="SudokuSolvers" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/unit_test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test.TestAlgorithms.test_ac3&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test.TestAlgorithms.test_order_domain_values" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="SudokuSolvers" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/unit_test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test.TestAlgorithms.test_order_domain_values&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for test.TestAlgorithms.test_ac3" />
+        <item itemvalue="Python tests.Python tests for test.TestAlgorithms.test_order_domain_values" />
         <item itemvalue="Python tests.Python tests for test.TestAlgorithms" />
         <item itemvalue="Python tests.Python tests for ac3_test.Ac3Test.test_ac3" />
       </list>
@@ -253,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714051495987</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Moved the ac3 method to sudoku_solver.py">
+      <option name="closed" value="true" />
+      <created>1714051850719</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1714051850719</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -270,6 +316,18 @@
     <MESSAGE value="Completed mac implementation but found bugs in execution" />
     <MESSAGE value="Added solver method" />
     <MESSAGE value="Added unit testing for method ac3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added unit testing for method ac3" />
+    <MESSAGE value="Moved the ac3 method to sudoku_solver.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved the ac3 method to sudoku_solver.py" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/backtracking_search.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
