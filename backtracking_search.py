@@ -63,7 +63,7 @@ def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
     sc = j // 3  # Square column of variable
     for m in range(sr * 3, sr * 3 + 3):
         for n in range(sc * 3, sc * 3 + 3):
-            if (m, n) != (i, j):
+            if m != i and n != j:
                 neighbors.append((m, n))
 
     for value in board[i, j].domain:
