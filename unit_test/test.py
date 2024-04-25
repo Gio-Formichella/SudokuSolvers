@@ -58,3 +58,4 @@ class TestAlgorithms(unittest.TestCase):
         self.assertEqual(result[1][1], 11)
         self.assertEqual(result[4][0], 2)  # Most constraining value
         self.assertEqual(result[4][1], 14)
+        self.assertListEqual(result, [(6, 7), (9, 11), (5, 13), (8, 13), (2, 14)])
