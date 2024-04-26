@@ -93,6 +93,12 @@ def select_unassigned_variable(csp, strategy="static") -> tuple or None:
 
 
 def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
+    """
+    :param board: Sudoku puzzle board
+    :param var: indices of selected variable
+    :return: list of domain values in least-constraining order
+    """
+
     i = var[0]
     j = var[1]
     least_constraining_value = []  # Will store for every value in variable domain (value, constraint_score)
