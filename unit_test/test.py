@@ -38,6 +38,10 @@ class TestAlgorithms(unittest.TestCase):
         self.b[6, 1].set_value(6)
         self.b[7, 1].set_value(7)
 
+    def test_revise(self):
+        self.assertTrue(revise(self.b, 2, 2, 1, 2))
+        self.assertFalse(revise(self.b, 1, 2, 2, 2))
+
     def test_ac3(self):
         ac3(self.b)
         self.assertListEqual(self.b[2, 2].domain, [9])  # Square constraints
