@@ -82,14 +82,16 @@ def select_unassigned_variable(csp, strategy="static") -> tuple or None:
         for j in range(9):
             if csp[i, j].value is None:
                 unassigned_var.append((i, j))
+    if len(unassigned_var) > 0:
+        match strategy:
+            case "static":  # Choosing first variable in static ordering
+                return unassigned_var[0]
+            case "random":  # Randomly selecting unassigned variable
+                idx = random.randint(0, len(unassigned_var))
+                return unassigned_var[idx]
+            # can add more
 
-    match strategy:
-        case "static":  # Choosing first variable in static ordering
-            return unassigned_var[0]
-        case "random":  # Randomly selecting unassigned variable
-            idx = random.randint(0, len(unassigned_var))
-            return unassigned_var[idx]
-        # can add more
+    return None
 
 
 def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:

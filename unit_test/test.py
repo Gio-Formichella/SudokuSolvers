@@ -1,7 +1,5 @@
 import unittest
 
-from backtracking_search import order_domain_values
-from cell import Cell
 from sudoku_solver import *
 
 """
@@ -63,3 +61,13 @@ class TestAlgorithms(unittest.TestCase):
         self.assertEqual(result[4][0], 2)  # Most constraining value
         self.assertEqual(result[4][1], 14)
         self.assertListEqual(result, [(6, 7), (9, 11), (5, 13), (8, 13), (2, 14)])
+
+    def test_select_unassigned_variable(self):
+        self.assertTupleEqual(select_unassigned_variable(self.b), (0, 6))
+        # Assigning a value to all cells
+        for i in range(9):
+            for j in range(9):
+                if self.b[i, j].value is None:
+                    self.b[i, j].set_value(0)
+
+        self.assertIsNone(select_unassigned_variable(self.b))
