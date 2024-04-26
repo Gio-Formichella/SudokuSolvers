@@ -38,6 +38,16 @@ def ac3(board) -> bool:
                             queue.put((i, j, k, n))
                             queue.put((k, n, i, j))
 
+    return propagate_constraints(board, queue)
+
+
+def propagate_constraints(board, queue) -> bool:
+    """
+    :param board: Sudoku puzzle board
+    :param queue: Queue of constraints to be checked
+    :return: True if all constraints are satisfiable, False otherwise
+    """
+
     while not queue.empty():
         t = queue.get()
         i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
@@ -127,3 +137,24 @@ def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
 
     least_constraining_value.sort(key=lambda x: x[1])
     return least_constraining_value
+
+
+def mac(board, var) -> np.ndarray or None:
+    i = var[0]
+    j = var[1]
+    queue = Queue()
+    for k in range(9):
+        if k != j and board[i, k].value is None:
+            queue.put((i, k, i, j))
+        if k != i and board[k, j].value is None:
+            queue.put((k, j, i, j))
+    sr = i // 3  # Square row of variable
+    sc = j // 3  # Square column of variable
+    for m in range(sr * 3, sr * 3 + 3):
+        for n in range(sc * 3, sc * 3 + 3):
+            if (m, n) != (i, j) and board[m, n].value is None:
+                queue.put((m, n, i, j))
+
+    if propagate_constraints(board, queue):
+        return board
+    return None
