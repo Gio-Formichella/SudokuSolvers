@@ -139,6 +139,16 @@ def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
     return least_constraining_value
 
 
+def inference(board, var, value) -> np.ndarray or None:
+    i = var[0]
+    j = var[1]
+    board[i, j].set_value(value)
+    if mac(board, (i, j)) is not None:
+        return board
+    else:
+        return None
+
+
 def mac(board, var) -> np.ndarray or None:
     i = var[0]
     j = var[1]

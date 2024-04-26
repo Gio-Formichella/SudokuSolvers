@@ -31,12 +31,3 @@ def backtrack(board) -> np.ndarray or None:
 
     return None
 
-
-def inference(board, var, value) -> np.ndarray or None:
-    i = var[0]
-    j = var[1]
-    board[i, j].set_value(value)
-    if mac(board, (i, j)):
-        return board
-    else:
-        return None

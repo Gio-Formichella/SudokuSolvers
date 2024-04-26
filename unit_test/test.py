@@ -93,3 +93,8 @@ class TestAlgorithms(unittest.TestCase):
         self.b[2, 3].domain = [9]
         self.b[2, 2].set_value(9)
         self.assertIsNone(mac(self.b, (2, 2)))
+
+    def test_inference(self):
+        self.assertIsNotNone(inference(self.b, (3, 0), 2))
+        self.b[2, 3].domain = [9]
+        self.assertIsNone(inference(self.b, (2, 2), 9))
