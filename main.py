@@ -1,7 +1,6 @@
 import numpy as np
-from ac3 import ac3
 from cell import Cell
-
+from sudoku_solver import sudoku_solver
 
 # Sudoku board
 b = np.empty((9, 9), dtype=Cell)
@@ -19,5 +18,9 @@ b[1, 1].set_value(5)
 b[1, 2].set_value(6)
 b[2, 0].set_value(7)
 b[2, 1].set_value(8)
-ac3(b)
-print(b[2, 2].domain)  # Expecting [9]
+
+result = sudoku_solver(b)
+for i in range(9):
+    print(f"{result[i, 0].value}  {result[i, 1].value}  {result[i, 2].value}  {result[i, 3].value}  "
+          f"{result[i, 4].value}  {result[i, 5].value}  {result[i, 6].value}  {result[i, 7].value}  "
+          f"{result[i, 8].value}")
