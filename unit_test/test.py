@@ -41,11 +41,22 @@ class TestAlgorithms(unittest.TestCase):
         self.assertFalse(revise(self.b, 1, 2, 2, 2))
 
     def test_ac3(self):
-        ac3(self.b)
+        self.assertTrue(ac3(self.b))
         self.assertListEqual(self.b[2, 2].domain, [9])  # Square constraints
         self.assertListEqual(self.b[0, 6].domain, [7])  # Row constraints
         self.assertListEqual(self.b[5, 1].domain, [4, 9])  # Column constraints
         self.assertListEqual(self.b[3, 0].domain, [2, 5, 6, 8, 9])
+
+        # Invalid puzzle board
+        invalid_b = np.empty((9, 9), dtype=Cell)
+
+        # Initialize each element with a new Cell object
+        for i in range(9):
+            for j in range(9):
+                invalid_b[i, j] = Cell()
+        invalid_b[0, 0].set_value(1)
+        invalid_b[1, 1].set_value(1)
+        self.assertFalse(ac3(invalid_b))
 
     def test_order_domain_values(self):
         """
@@ -71,3 +82,14 @@ class TestAlgorithms(unittest.TestCase):
                     self.b[i, j].set_value(0)
 
         self.assertIsNone(select_unassigned_variable(self.b))
+
+    def test_mac(self):
+        self.b[8, 8].set_value(8)
+        self.assertIsNotNone(mac(self.b, (8, 8)))
+        self.assertListEqual(self.b[7, 8].domain, [1, 2, 3, 4, 5, 6, 7, 9])
+        self.assertListEqual(self.b[7, 7].domain, [1, 2, 3, 4, 5, 6, 7, 9])
+        self.assertListEqual(self.b[8, 7].domain, [1, 2, 3, 4, 5, 6, 7, 9])
+
+        self.b[2, 3].domain = [9]
+        self.b[2, 2].set_value(9)
+        self.assertIsNone(mac(self.b, (2, 2)))
