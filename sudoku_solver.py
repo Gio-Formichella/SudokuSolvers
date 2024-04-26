@@ -88,11 +88,18 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
     return revised
 
 
-def backtracking_search(board) -> np.ndarray or None:
-    return backtrack(board)
+def backtracking_search(board, strategy="static") -> np.ndarray or None:
+    """
+    :param board: Sudoku puzzle board
+    :param strategy: Strategy for unassigned variable selection:
+        - "static": First variable in static order
+        - "random": Randomly selected
+    :return:  Matrix solution or None if puzzle has no solution
+    """
+    return backtrack(board, strategy)
 
 
-def backtrack(board) -> np.ndarray or None:
+def backtrack(board, strategy) -> np.ndarray or None:
     # Checking for complete assignment
     found = False
     for i in range(9):
@@ -102,18 +109,18 @@ def backtrack(board) -> np.ndarray or None:
     if not found:
         return board
 
-    var = select_unassigned_variable(board)  # tuple (row, column)
+    var = select_unassigned_variable(board, strategy)  # tuple (row, column)
     for value in order_domain_values(board, var):
         inference_board = inference(copy.deepcopy(board), var, value)
         if inference_board is not None:
-            result = backtrack(inference_board)
+            result = backtrack(inference_board, strategy)
             if result is not None:
                 return result
 
     return None
 
 
-def select_unassigned_variable(csp, strategy="static") -> tuple or None:
+def select_unassigned_variable(csp, strategy) -> tuple or None:
     unassigned_var = []
     for i in range(9):
         for j in range(9):
