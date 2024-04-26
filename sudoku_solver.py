@@ -1,6 +1,8 @@
 import numpy as np
 from backtracking_search import backtracking_search
 from queue import Queue
+from cell import Cell
+import random
 
 
 def sudoku_solver(board) -> np.ndarray or None:
@@ -51,8 +53,8 @@ def ac3(board) -> bool:
                     queue.put((k, j1, i1, j1))
             sr = i1 // 3
             sc = j1 // 3
-            for i in range(sr*3, sr*3+3):
-                for j in range(sc*3, sc*3 + 3):
+            for i in range(sr * 3, sr * 3 + 3):
+                for j in range(sc * 3, sc * 3 + 3):
                     if (i, j) not in ((i1, j1), (i2, j2)):
                         queue.put((i, j, i1, j1))
 
@@ -72,3 +74,48 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
             revised = True
 
     return revised
+
+
+def select_unassigned_variable(csp, strategy="static") -> tuple or None:
+    unassigned_var = []
+    for i in range(9):
+        for j in range(9):
+            if csp[i, j].value is None:
+                unassigned_var.append((i, j))
+
+    match strategy:
+        case "static":  # Choosing first variable in static ordering
+            return unassigned_var[0]
+        case "random":  # Randomly selecting unassigned variable
+            idx = random.randint(0, len(unassigned_var))
+            return unassigned_var[idx]
+        # can add more
+
+
+def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
+    i = var[0]
+    j = var[1]
+    least_constraining_value = []  # Will store for every value in variable domain (value, constraint_score)
+    neighbors = []  # Stores neighbouring variables
+    # Adding neighbors
+    for k in range(9):
+        if k != j:
+            neighbors.append((i, k))
+        if k != i:
+            neighbors.append((k, j))
+    sr = i // 3  # Square row of variable
+    sc = j // 3  # Square column of variable
+    for m in range(sr * 3, sr * 3 + 3):
+        for n in range(sc * 3, sc * 3 + 3):
+            if m != i and n != j:
+                neighbors.append((m, n))
+
+    for value in board[i, j].domain:
+        count = 0  # Times value is present in neighbors' domain
+        for n in neighbors:
+            if value in board[n[0], n[1]].domain:
+                count += 1
+        least_constraining_value.append((value, count))
+
+    least_constraining_value.sort(key=lambda x: x[1])
+    return least_constraining_value
