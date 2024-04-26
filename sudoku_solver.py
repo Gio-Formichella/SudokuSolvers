@@ -163,7 +163,7 @@ def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
         least_constraining_value.append((value, count))
 
     least_constraining_value.sort(key=lambda x: x[1])
-    return least_constraining_value
+    return [t[0] for t in least_constraining_value]
 
 
 def inference(board, var, value) -> np.ndarray or None:
