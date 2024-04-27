@@ -7,15 +7,21 @@ import numpy as np
 from cell import Cell
 
 
-def sudoku_solver(board, strategy="static") -> np.ndarray or None:
+def sudoku_solver(puzzle, strategy="static") -> np.ndarray or None:
     """
-    :param board: Sudoku puzzle board
+    :param puzzle: Sudoku puzzle
     :param strategy: Strategy for unassigned variable selection:
         - "static": First variable in static order
         - "random": Randomly selected
         - "mrv": Minimum-remaining-values heuristic
     :return:  Matrix solution or None if puzzle has no solution
     """
+    board = np.empty((9, 9), dtype=Cell)
+
+    for i in range(9):
+        for j in range(9):
+            board[i, j] = Cell(puzzle.board[i][j])
+
     if not ac3(board):
         return None
     result = backtracking_search(board, strategy)
