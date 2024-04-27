@@ -7,13 +7,16 @@ import numpy as np
 from cell import Cell
 
 
-def sudoku_solver(puzzle, strategy="static") -> np.ndarray or None:
+def sudoku_solver(puzzle, var_strategy="static", inference_strategy="mac") -> np.ndarray or None:
     """
     :param puzzle: Sudoku puzzle
-    :param strategy: Strategy for unassigned variable selection:
+    :param var_strategy: Strategy for unassigned variable selection:
         - "static": First variable in static order
         - "random": Randomly selected
         - "mrv": Minimum-remaining-values heuristic
+    :param inference_strategy: Type of domain reduction inference:
+        - "mac": Maintaining arc consistency
+        - "forward_checking": Forward checking, only neighbouring variables are checked
     :return:  Matrix solution or None if puzzle has no solution
     """
     board = np.empty((9, 9), dtype=Cell)
@@ -24,7 +27,7 @@ def sudoku_solver(puzzle, strategy="static") -> np.ndarray or None:
 
     if not ac3(board):
         return None
-    result = backtracking_search(board, strategy)
+    result = backtracking_search(board, var_strategy, inference_strategy)
     return result
 
 
@@ -102,11 +105,11 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
     return revised
 
 
-def backtracking_search(board, strategy) -> np.ndarray or None:
-    return backtrack(board, strategy)
+def backtracking_search(board, var_strategy, inference_strategy) -> np.ndarray or None:
+    return backtrack(board, var_strategy, inference_strategy)
 
 
-def backtrack(board, strategy) -> np.ndarray or None:
+def backtrack(board, var_strategy, inference_strategy) -> np.ndarray or None:
     # Checking for complete assignment
     found = False
     for i in range(9):
@@ -116,11 +119,11 @@ def backtrack(board, strategy) -> np.ndarray or None:
     if not found:
         return board
 
-    var = select_unassigned_variable(board, strategy)  # tuple (row, column)
+    var = select_unassigned_variable(board, var_strategy)  # tuple (row, column)
     for value in order_domain_values(board, var):
-        inference_board = inference(copy.deepcopy(board), var, value)
+        inference_board = inference(copy.deepcopy(board), var, value, inference_strategy)
         if inference_board is not None:
-            result = backtrack(inference_board, strategy)
+            result = backtrack(inference_board, var_strategy, inference_strategy)
             if result is not None:
                 return result
 
@@ -186,14 +189,21 @@ def order_domain_values(board: np.ndarray[Cell], var: tuple) -> list:
     return [t[0] for t in least_constraining_value]
 
 
-def inference(board, var, value) -> np.ndarray or None:
+def inference(board, var, value, inference_strategy) -> np.ndarray or None:
     i = var[0]
     j = var[1]
     board[i, j].set_value(value)
-    if mac(board, (i, j)) is not None:
-        return board
-    else:
-        return None
+    match inference_strategy:
+        case "mac":
+            if mac(board, (i, j)) is not None:
+                return board
+            else:
+                return None
+        case "forward_checking":
+            if forward_checking(board, (i, j)) is not None:
+                return board
+            else:
+                return None
 
 
 def mac(board, var) -> np.ndarray or None:
@@ -215,3 +225,30 @@ def mac(board, var) -> np.ndarray or None:
     if propagate_constraints(board, queue):
         return board
     return None
+
+
+def forward_checking(board, var) -> np.ndarray or None:
+    i = var[0]
+    j = var[1]
+    queue = Queue()
+    
+    for k in range(9):
+        if k != j and board[i, k].value is None:
+            queue.put((i, k, i, j))
+        if k != i and board[k, j].value is None:
+            queue.put((k, j, i, j))
+    sr = i // 3  # Square row of variable
+    sc = j // 3  # Square column of variable
+    for m in range(sr * 3, sr * 3 + 3):
+        for n in range(sc * 3, sc * 3 + 3):
+            if (m, n) != (i, j) and board[m, n].value is None:
+                queue.put((m, n, i, j))
+    while not queue.empty():
+        t = queue.get()
+        i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
+        if revise(board, i1, j1, i2, j2):
+            if len(board[i1, j1].domain) == 0:
+                # Problem has no solution
+                return None
+    
+    return board

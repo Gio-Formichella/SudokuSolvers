@@ -65,23 +65,20 @@ class TestAlgorithms(unittest.TestCase):
         """
         ac3(self.b)
         result = order_domain_values(self.b, (3, 0))
-        self.assertEqual(result[0][0], 6)  # Least constraining value
-        self.assertEqual(result[0][1], 7)
-        self.assertEqual(result[1][0], 9)
-        self.assertEqual(result[1][1], 11)
-        self.assertEqual(result[4][0], 2)  # Most constraining value
-        self.assertEqual(result[4][1], 14)
-        self.assertListEqual(result, [(6, 7), (9, 11), (5, 13), (8, 13), (2, 14)])
+        self.assertEqual(result[0], 6)  # Least constraining value
+        self.assertEqual(result[1], 9)
+        self.assertEqual(result[4], 2)  # Most constraining value
+        self.assertListEqual(result, [6, 9, 5, 8, 2])
 
     def test_select_unassigned_variable(self):
-        self.assertTupleEqual(select_unassigned_variable(self.b), (0, 6))
+        self.assertTupleEqual(select_unassigned_variable(self.b, "static"), (0, 6))
         # Assigning a value to all cells
         for i in range(9):
             for j in range(9):
                 if self.b[i, j].value is None:
                     self.b[i, j].set_value(0)
 
-        self.assertIsNone(select_unassigned_variable(self.b))
+        self.assertIsNone(select_unassigned_variable(self.b, "static"))
 
     def test_mac(self):
         self.b[8, 8].set_value(8)
@@ -95,6 +92,6 @@ class TestAlgorithms(unittest.TestCase):
         self.assertIsNone(mac(self.b, (2, 2)))
 
     def test_inference(self):
-        self.assertIsNotNone(inference(self.b, (3, 0), 2))
+        self.assertIsNotNone(inference(self.b, (3, 0), 2, "mac"))
         self.b[2, 3].domain = [9]
-        self.assertIsNone(inference(self.b, (2, 2), 9))
+        self.assertIsNone(inference(self.b, (2, 2), 9, "mac"))
