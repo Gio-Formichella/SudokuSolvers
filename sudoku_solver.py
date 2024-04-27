@@ -7,10 +7,18 @@ import numpy as np
 from cell import Cell
 
 
-def sudoku_solver(board) -> np.ndarray or None:
+def sudoku_solver(board, strategy="static") -> np.ndarray or None:
+    """
+    :param board: Sudoku puzzle board
+    :param strategy: Strategy for unassigned variable selection:
+        - "static": First variable in static order
+        - "random": Randomly selected
+        - "mrv": Minimum-remaining-values heuristic
+    :return:  Matrix solution or None if puzzle has no solution
+    """
     if not ac3(board):
         return None
-    result = backtracking_search(board)
+    result = backtracking_search(board, strategy)
     return result
 
 
@@ -88,14 +96,7 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
     return revised
 
 
-def backtracking_search(board, strategy="static") -> np.ndarray or None:
-    """
-    :param board: Sudoku puzzle board
-    :param strategy: Strategy for unassigned variable selection:
-        - "static": First variable in static order
-        - "random": Randomly selected
-    :return:  Matrix solution or None if puzzle has no solution
-    """
+def backtracking_search(board, strategy) -> np.ndarray or None:
     return backtrack(board, strategy)
 
 
@@ -120,21 +121,27 @@ def backtrack(board, strategy) -> np.ndarray or None:
     return None
 
 
-def select_unassigned_variable(csp, strategy) -> tuple or None:
+def select_unassigned_variable(board, strategy) -> tuple or None:
     unassigned_var = []
     for i in range(9):
         for j in range(9):
-            if csp[i, j].value is None:
+            if board[i, j].value is None:
                 unassigned_var.append((i, j))
     if len(unassigned_var) > 0:
         match strategy:
             case "static":  # Choosing first variable in static ordering
                 return unassigned_var[0]
             case "random":  # Randomly selecting unassigned variable
-                idx = random.randint(0, len(unassigned_var))
+                idx = random.randint(0, len(unassigned_var) - 1)
                 return unassigned_var[idx]
-            # can add more
-
+            case "mrv":
+                mrvv = unassigned_var[0]  # Mrv variable
+                mrv = len(board[mrvv[0], mrvv[1]].domain)
+                for var in unassigned_var:
+                    if len(board[var[0], var[1]].domain) < mrv:
+                        mrvv = var
+                        mrv = len(board[var[0], var[1]].domain)
+                return mrvv
     return None
 
 
