@@ -7,7 +7,7 @@ import numpy as np
 from cell import Cell
 
 
-def sudoku_solver(puzzle, var_strategy="static", inference_strategy="mac") -> np.ndarray or None:
+def backtracking_solver(puzzle, var_strategy="static", inference_strategy="mac") -> np.ndarray or None:
     """
     :param puzzle: Sudoku puzzle
     :param var_strategy: Strategy for unassigned variable selection:

@@ -1,6 +1,6 @@
 import unittest
 
-from sudoku_solver import *
+from backtracking_solver import *
 
 """
 To better understand the tests draw the sudoku board and add values as in setUp
