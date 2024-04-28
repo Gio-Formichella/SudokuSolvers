@@ -7,7 +7,7 @@ import numpy as np
 from cell import Cell
 
 
-def backtracking_solver(puzzle, var_strategy="static", inference_strategy="mac") -> np.ndarray or None:
+def backtracking_solver(puzzle, var_strategy="static", inference_strategy="mac") -> (np.ndarray, int, int) or None:
     """
     :param puzzle: Sudoku puzzle
     :param var_strategy: Strategy for unassigned variable selection:
@@ -17,7 +17,7 @@ def backtracking_solver(puzzle, var_strategy="static", inference_strategy="mac")
     :param inference_strategy: Type of domain reduction inference:
         - "mac": Maintaining arc consistency
         - "forward_checking": Forward checking, only neighbouring variables are checked
-    :return:  Matrix solution or None if puzzle has no solution
+    :return:  Matrix solution or None if puzzle has no solution, number of assignments and number of backtracks
     """
     board = np.empty((9, 9), dtype=Cell)
 
@@ -25,10 +25,13 @@ def backtracking_solver(puzzle, var_strategy="static", inference_strategy="mac")
         for j in range(9):
             board[i, j] = Cell(puzzle.board[i][j])
 
+    # Initializing assignments and backtracks counters
+    counters = [0, 0]  # [assignments counter, backtracks counter
+
     if not ac3(board):
         return None
-    result = backtracking_search(board, var_strategy, inference_strategy)
-    return result
+    result = backtracking_search(board, var_strategy, inference_strategy, counters)
+    return result, counters[0], counters[1]
 
 
 def ac3(board) -> bool:
@@ -105,11 +108,11 @@ def revise(board, i1: int, j1: int, i2: int, j2: int) -> bool:
     return revised
 
 
-def backtracking_search(board, var_strategy, inference_strategy) -> np.ndarray or None:
-    return backtrack(board, var_strategy, inference_strategy)
+def backtracking_search(board, var_strategy: str, inference_strategy: str, counters: list) -> np.ndarray or None:
+    return backtrack(board, var_strategy, inference_strategy, counters)
 
 
-def backtrack(board, var_strategy, inference_strategy) -> np.ndarray or None:
+def backtrack(board, var_strategy: str, inference_strategy: str, counters: list) -> np.ndarray or None:
     # Checking for complete assignment
     found = False
     for i in range(9):
@@ -122,10 +125,13 @@ def backtrack(board, var_strategy, inference_strategy) -> np.ndarray or None:
     var = select_unassigned_variable(board, var_strategy)  # tuple (row, column)
     for value in order_domain_values(board, var):
         inference_board = inference(copy.deepcopy(board), var, value, inference_strategy)
+        counters[0] += 1  # Assignment
         if inference_board is not None:
-            result = backtrack(inference_board, var_strategy, inference_strategy)
+            result = backtrack(inference_board, var_strategy, inference_strategy, counters)
             if result is not None:
                 return result
+
+        counters[1] += 1  # Backtracking
 
     return None
 
