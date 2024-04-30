@@ -30,16 +30,16 @@ def min_conflicts_solver(puzzle, max_steps: int) -> np.ndarray or None:
 def is_solved(board) -> bool:
     # Check all rows
     for i in range(9):
+        values = []  # Stores all values in row
         for j in range(9):
-            values = []  # Stores all values in row
             values.append(board[i, j].value)
             # Checking for same values
             if len(values) > len(set(values)):
                 return False
     # Check all columns
     for j in range(9):
+        values = []  # Stores all values in column
         for i in range(9):
-            values = []  # Stores all values in column
             values.append(board[i, j].value)
             # Checking for same values
             if len(values) > len(set(values)):
@@ -59,8 +59,44 @@ def is_solved(board) -> bool:
 
 
 def get_conflicting_variables(board) -> list:
+    """
+
+    :param board: Sudoku puzzle board
+    :return: List of conflicting variables tuples
+    """
+
     conflicting_vars = []
-    # TODO: implementation
+    vars_to_check = [(i, j) for i in range(1, 10) for j in range(1, 10)]
+    for var in vars_to_check:
+        i = var[0]
+        j = var[1]
+        if len(board[i, j].domain) > 1 and (i, j) not in conflicting_vars:
+            # Variable is not puzzle assigned and not already found conflicting
+            found = False  # Found conflict
+            for k in range(9):
+                if k != j and board[i, k].value == board[i, j].value:  # Row conflict
+                    found = True
+                    conflicting_vars.append((i, j))
+                    if (i, k) not in conflicting_vars:
+                        conflicting_vars.append((i, k))
+                    break
+                if k != i and board[k, j].value == board[i, j].value:  # Column conflict
+                    found = True
+                    conflicting_vars.append((i, j))
+                    if (k, j) not in conflicting_vars:
+                        conflicting_vars.append((k, j))
+                    break
+            if not found:
+                sr = i // 3  # Square row of variable
+                sc = j // 3  # Square column of variable
+                for m in range(sr * 3, sr * 3 + 3):
+                    for n in range(sc * 3, sc * 3 + 3):
+                        if m != i and n != j and board[m, n].value == board[i, j].value:
+                            conflicting_vars.append((i, j))
+                            if (m, n) not in conflicting_vars:
+                                conflicting_vars.append((m, n))
+                            break
+
     return conflicting_vars
 
 
