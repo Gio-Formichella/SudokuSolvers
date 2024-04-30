@@ -7,7 +7,7 @@ To better understand the tests draw the sudoku board and add values as in setUp
 """
 
 
-class TestAlgorithms(unittest.TestCase):
+class TestBacktrackSubroutines(unittest.TestCase):
 
     def setUp(self):
         # Sudoku board
