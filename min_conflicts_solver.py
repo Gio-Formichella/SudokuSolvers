@@ -19,10 +19,11 @@ def min_conflicts_solver(puzzle, max_steps: int) -> np.ndarray or None:
 
     for step in range(max_steps):
         if is_solved(board):
-            conflicting_vars = get_conflicting_variables(board)
-            var = conflicting_vars[random.randint(0, len(conflicting_vars) - 1)]
-            value = get_min_conflicts(board, var)
-            board[var[0], var[1]].value = value
+            return board
+        conflicting_vars = get_conflicting_variables(board)
+        var = conflicting_vars[random.randint(0, len(conflicting_vars) - 1)]
+        value = get_min_conflicts(board, var)
+        board[var[0], var[1]].value = value
 
     return None
 
@@ -66,7 +67,7 @@ def get_conflicting_variables(board) -> list:
     """
 
     conflicting_vars = []
-    vars_to_check = [(i, j) for i in range(1, 10) for j in range(1, 10)]
+    vars_to_check = [(i, j) for i in range(1, 9) for j in range(1, 9)]
     for var in vars_to_check:
         i = var[0]
         j = var[1]
