@@ -134,3 +134,17 @@ def get_min_conflicts(board, var: tuple) -> int:
             min_conflicts = conflicts
 
     return min_conflicting_value
+
+
+class TabuList:
+    def __init__(self, max_size=9):
+        self.tabu = []
+        self.max_size = max_size
+
+    def add(self, var: tuple, value: int) -> None:
+        while len(self.tabu) >= self.max_size:
+            self.tabu.pop(0)
+        self.tabu.append((var, value))
+
+    def is_tabu(self, var, value) -> bool:
+        return (var, value) in self.tabu
