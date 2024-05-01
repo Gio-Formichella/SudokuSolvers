@@ -15,7 +15,7 @@ for i in range(9):
 print(f"Assignments made: {assignments}")
 print(f"Backtracks made: {backtracks}")
 
-result = min_conflicts_solver(puzzle, max_steps=100000)
+result = min_conflicts_solver(puzzle, max_steps=10000, tabu_size=10)
 if result is not None:
     for i in range(9):
         print(f"{result[i, 0].value}  {result[i, 1].value}  {result[i, 2].value}  {result[i, 3].value}  "
