@@ -1,2 +1,2 @@
-numpy==1.25.2
+numpy~=1.24.3
 py_sudoku==1.0.3
