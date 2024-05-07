@@ -256,8 +256,11 @@ def forward_checking(board, var) -> np.ndarray or None:
         t = queue.get()
         i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
         if revise(board, i1, j1, i2, j2):
-            if len(board[i1, j1].domain) == 0:
+            d_length = len(board[i1, j1].domain)
+            if d_length == 0:
                 # Problem has no solution
                 return None
-    
+            if d_length == 1:
+                board[i1, j1].set_value(board[i1, j1].domain[0])
+
     return board
