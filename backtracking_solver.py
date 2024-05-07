@@ -74,9 +74,12 @@ def propagate_constraints(board, queue) -> bool:
         t = queue.get()
         i1, j1, i2, j2 = t[0], t[1], t[2], t[3]
         if revise(board, i1, j1, i2, j2):
-            if len(board[i1, j1].domain) == 0:
+            d_length = len(board[i1, j1].domain)  # Number of values still in domain
+            if d_length == 0:
                 # Problem has no solution
                 return False
+            if d_length == 1:
+                board[i1, j1].set_value(board[i1, j1].domain[0])  # Assigning value if only one is available
             # Propagation to all neighbors
             for k in range(9):
                 if k != j1 and (i1, k) != (i2, j2):
