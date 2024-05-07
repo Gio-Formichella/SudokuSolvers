@@ -77,8 +77,8 @@ def get_conflicting_variables(board) -> list:
     :return: List of conflicting variables tuples
     """
 
-    conflicting_vars = []
-    vars_to_check = [(i, j) for i in range(1, 9) for j in range(1, 9)]
+    conflicting_vars = []  # Stores conflicting variables
+    vars_to_check = [(i, j) for i in range(0, 9) for j in range(0, 9)]
     for var in vars_to_check:
         i = var[0]
         j = var[1]
@@ -144,16 +144,16 @@ def get_min_conflicts(board, var: tuple, tabu_list: TabuList) -> int:
         if not tabu_list.is_tabu((i, j), v):
             conflicts = 0
             for k in range(9):
-                if k != j and board[i, k].value == board[i, j].value:  # Row conflict
+                if k != j and board[i, k].value == v:  # Row conflict
                     conflicts += 1
-                if k != i and board[k, j].value == board[i, j].value:  # Column conflict
+                if k != i and board[k, j].value == v:  # Column conflict
                     conflicts += 1
 
             sr = i // 3  # Square row of variable
             sc = j // 3  # Square column of variable
             for m in range(sr * 3, sr * 3 + 3):
                 for n in range(sc * 3, sc * 3 + 3):
-                    if m != i and n != j and board[m, n].value == board[i, j].value:
+                    if (m != i or n != j) and board[m, n].value == v:
                         conflicts += 1
 
             if conflicts < min_conflicts:
