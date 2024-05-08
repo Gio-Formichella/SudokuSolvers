@@ -1,6 +1,9 @@
 import unittest
-from min_conflicts_solver import *
+
 from sudoku import Sudoku
+
+from min_conflicts_solver import *
+
 
 class TestMinConflictSubroutines(unittest.TestCase):
     def setUp(self):
@@ -30,19 +33,27 @@ class TestMinConflictSubroutines(unittest.TestCase):
         self.b[6, 1].set_value(6)
         self.b[7, 1].set_value(7)
 
+        # Building solved board
+        new_puzzle = Sudoku(3)
+        solved = new_puzzle.solve()  # Using external solver that I'm sure finds a solution
+        self.solved_board = np.empty((9, 9), dtype=Cell)
+        for i in range(9):
+            for j in range(9):
+                if solved.board[i][j] is not None:
+                    self.solved_board[i, j] = Cell(solved.board[i][j])
+                else:
+                    self.solved_board[i, j] = Cell()
+
     def test_is_solved(self):
         # Unsolved board
         self.assertFalse(is_solved(self.b))
 
-        # Building solved board
-        new_puzzle = Sudoku(3)
-        solved = new_puzzle.solve()  # Using external solver that I'm sure finds a solution
-        board = np.empty((9, 9), dtype=Cell)
-        for i in range(9):
-            for j in range(9):
-                if solved.board[i][j] is not None:
-                    board[i, j] = Cell(solved.board[i][j])
-                else:
-                    board[i, j] = Cell()
+        # Solved board
+        self.assertTrue(is_solved(self.solved_board))
 
-        self.assertTrue(is_solved(board))
+    def test_get_conflicting_variables(self):
+        self.assertEqual(len(get_conflicting_variables(self.b)), 64)
+        self.assertListEqual(get_conflicting_variables(self.solved_board), [])
+
+    def test_get_min_conflicts(self):
+        self.assertEqual(get_min_conflicts(self.b, (2, 2), TabuList(10)), 9)
