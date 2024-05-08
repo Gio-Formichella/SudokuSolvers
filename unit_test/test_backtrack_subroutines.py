@@ -41,7 +41,7 @@ class TestBacktrackSubroutines(unittest.TestCase):
         self.assertFalse(revise(self.b, 1, 2, 2, 2))
 
     def test_ac3(self):
-        self.assertTrue(ac3(self.b))
+        self.assertTrue(ac3(self.b, [0, 0]))
         self.assertListEqual(self.b[2, 2].domain, [9])  # Square constraints
         self.assertListEqual(self.b[0, 6].domain, [7])  # Row constraints
         self.assertListEqual(self.b[5, 1].domain, [4, 9])  # Column constraints
@@ -56,14 +56,14 @@ class TestBacktrackSubroutines(unittest.TestCase):
                 invalid_b[i, j] = Cell()
         invalid_b[0, 0].set_value(1)
         invalid_b[1, 1].set_value(1)
-        self.assertFalse(ac3(invalid_b))
+        self.assertFalse(ac3(invalid_b, [0, 0]))
 
     def test_order_domain_values(self):
         """
         Note: the test is also dependent on ac3. A better unit test can be achieved by removing this dependency, but I
         couldn't be bothered from going threw all the unrestricted domains of all the variables connected to tested one
         """
-        ac3(self.b)
+        ac3(self.b, [0, 0])
         result = order_domain_values(self.b, (3, 0))
         self.assertEqual(result[0], 6)  # Least constraining value
         self.assertEqual(result[1], 9)
@@ -82,16 +82,16 @@ class TestBacktrackSubroutines(unittest.TestCase):
 
     def test_mac(self):
         self.b[8, 8].set_value(8)
-        self.assertIsNotNone(mac(self.b, (8, 8)))
+        self.assertIsNotNone(mac(self.b, (8, 8), [0, 0]))
         self.assertListEqual(self.b[7, 8].domain, [1, 2, 3, 4, 5, 6, 7, 9])
         self.assertListEqual(self.b[7, 7].domain, [1, 2, 3, 4, 5, 6, 7, 9])
         self.assertListEqual(self.b[8, 7].domain, [1, 2, 3, 4, 5, 6, 7, 9])
 
         self.b[2, 3].domain = [9]
         self.b[2, 2].set_value(9)
-        self.assertIsNone(mac(self.b, (2, 2)))
+        self.assertIsNone(mac(self.b, (2, 2), [0, 0]))
 
     def test_inference(self):
-        self.assertIsNotNone(inference(self.b, (3, 0), 2, "mac"))
+        self.assertIsNotNone(inference(self.b, (3, 0), 2, "mac", [0, 0]))
         self.b[2, 3].domain = [9]
-        self.assertIsNone(inference(self.b, (2, 2), 9, "mac"))
+        self.assertIsNone(inference(self.b, (2, 2), 9, "mac", [0, 0]))
