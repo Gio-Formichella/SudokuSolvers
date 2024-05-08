@@ -23,7 +23,7 @@ def min_conflicts_solver(puzzle, max_steps: int, tabu_size: int) -> np.ndarray o
                 board[i, j] = Cell(puzzle.board[i][j])
             else:
                 board[i, j] = Cell()
-                board[i, j].value = random.randint(1, 9)  # Value is set but domain is not restricted
+                board[i, j].set_value(random.randint(1, 9))  # Value is set but domain is not restricted
 
     tabu_list = TabuList(tabu_size)
 
@@ -76,38 +76,25 @@ def get_conflicting_variables(board) -> list:
     :param board: Sudoku puzzle board
     :return: List of conflicting variables tuples
     """
-
-    conflicting_vars = []  # Stores conflicting variables
-    vars_to_check = [(i, j) for i in range(0, 9) for j in range(0, 9)]
-    for var in vars_to_check:
-        i = var[0]
-        j = var[1]
-        if len(board[i, j].domain) > 1 and (i, j) not in conflicting_vars:
-            # Variable is not puzzle assigned and not already found conflicting
+    conflicting_vars = []
+    for i in range(9):
+        for j in range(9):
+            v = board[i, j].value  # Value of inspected variable
             found = False  # Found conflict
             for k in range(9):
-                if k != j and board[i, k].value == board[i, j].value:  # Row conflict
+                if not found and k != i and board[k, j].value == v:
                     found = True
                     conflicting_vars.append((i, j))
-                    if (i, k) not in conflicting_vars:
-                        conflicting_vars.append((i, k))
-                    break
-                if k != i and board[k, j].value == board[i, j].value:  # Column conflict
+                if not found and k != j and board[i, k].value == v:
                     found = True
                     conflicting_vars.append((i, j))
-                    if (k, j) not in conflicting_vars:
-                        conflicting_vars.append((k, j))
-                    break
-            if not found:
-                sr = i // 3  # Square row of variable
-                sc = j // 3  # Square column of variable
-                for m in range(sr * 3, sr * 3 + 3):
-                    for n in range(sc * 3, sc * 3 + 3):
-                        if m != i and n != j and board[m, n].value == board[i, j].value:
-                            conflicting_vars.append((i, j))
-                            if (m, n) not in conflicting_vars:
-                                conflicting_vars.append((m, n))
-                            break
+            sr = i // 3
+            sc = j // 3
+            for m in range(sr * 3, sr * 3 + 3):
+                for n in range(sc * 3, sc * 3 + 3):
+                    if not found and (m, n) != (i, j) and board[m, n].value == v:
+                        found = True
+                        conflicting_vars.append((i, j))
 
     return conflicting_vars
 
